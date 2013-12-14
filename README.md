@@ -32,11 +32,11 @@ $content = $view_native->render($new_template, $new_engine, $clear_local);
 ### Controller_Tpl:
 
 The controller uses 3 template nested:
-$tpl_page - Main page content. Varies depending on the controller and action[optional].
-$tpl_theme - Theme-wrapper for the main content. Used to set the overall style page.
-$tpl_theme->content - Contains $tpl_page.
-$tpl_frame - Document skeleton, the main task of forming `head` section.
-$tpl_frame->content - Contains $tpl_theme.
+- $tpl_page - Main page content. Varies depending on the controller and action[optional].
+- $tpl_theme - Theme-wrapper for the main content. Used to set the overall style page.
+- $tpl_theme->content - Contains $tpl_page.
+- $tpl_frame - Document skeleton, the main task of forming `head` section.
+- $tpl_frame->content - Contains $tpl_theme.
 
 This approach allows incrementally generate page content. 
 It is necessary for the formation of convenient page head container 
