@@ -30,7 +30,7 @@ abstract class Kohana_Tpl_Smarty implements Kohana_Tpl_Interface {
 	 */
 	public function __construct(array $config)
 	{
-		parent::__construct($config);
+		$this->_extension = $config['extension'];
 		// Create engine instance
 		$class = Arr::get($config, 'class_name', 'Smarty');
 		$this->_engine = new $class;

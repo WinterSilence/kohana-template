@@ -13,6 +13,11 @@
 abstract class Kohana_Tpl_Twig implements Kohana_Tpl_Interface {
 
 	/**
+	 * @var  string  Extension of view file
+	 */
+	protected $_extension;
+
+	/**
 	 * @var  object  Instance of template engine 
 	 */
 	protected $_engine;
@@ -25,7 +30,7 @@ abstract class Kohana_Tpl_Twig implements Kohana_Tpl_Interface {
 	 */
 	public function __construct(array $config)
 	{
-		parent::__construct($config);
+		$this->_extension = $config['extension'];
 		$loader = new Twig_Loader_Filesystem($config['template_dir']);
 		$this->_engine = new Twig_Environment($loader, $config['options']);
 		//$this->_engine->addExtension(new Kohana_Twig_Extension);

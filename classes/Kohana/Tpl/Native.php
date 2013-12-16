@@ -12,6 +12,11 @@
 abstract class Kohana_Tpl_Native implements Kohana_Tpl_Interface {
 
 	/**
+	 * @var  string  Extension of view file
+	 */
+	protected $_extension;
+
+	/**
 	 * Create driver for template engine.
 	 * 
 	 * @param   array  $config  Engine settings
