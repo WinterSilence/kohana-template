@@ -7,8 +7,9 @@
  * @package    Tpl
  * @category   Base
  * @author     WinterSilence <info@handy-soft.ru>
- * @copyright  (c) 2013 handy-soft.ru
+ * @copyright  2013 © handy-soft.ru
  * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
 abstract class Kohana_Tpl {
 
@@ -135,10 +136,10 @@ abstract class Kohana_Tpl {
 			$config['template_dir'] = Kohana::include_paths();
 			foreach ($config['template_dir'] as $key => $path)
 			{
-				$path = $path.'views'.DIRECTORY_SEPARATOR;
-				if (is_dir($path))
+				$config['template_dir'][$key] = $path.'views'.DIRECTORY_SEPARATOR;
+				if ( ! is_dir($config['template_dir'][$key]))
 				{
-					$config['template_dir'][$key] = $path;
+					unset($config['template_dir'][$key]);
 				}
 			}
 

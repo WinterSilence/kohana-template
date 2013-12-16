@@ -29,6 +29,31 @@ $view_native->clear(TRUE);
 $content = $view_native->render($new_template, $new_engine, $clear_local);
 ~~~
 
+### Kohana helpers in templates:
+
+**Smarty**
+Calling Kohana helpers occurs without any problems.
+~~~
+<base href="{URL::base()}">
+<title>{$title|default:''}</title>
+<meta charset="{Kohana::$charset}">
+~~~
+**Twig**
+To use a helper is necessary to register them in `tpl.twig.globals`.
+Use a dot instead of a double colon for dividing the class name and method in template.
+~~~
+<base href="{{ URL.base() }}">
+<title>{{ title|default('') }}</title>
+<meta charset="{{ Kohana.charset }}">
+~~~
+**Fenom**
+Call helper template is not currently supported.
+~~~
+<base href="{$url_base}">
+<title>{$title}</title>
+<meta charset="{$charset}">
+~~~
+
 ### Controller_Tpl:
 
 The controller uses 3 template nested:

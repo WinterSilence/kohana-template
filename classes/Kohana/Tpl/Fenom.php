@@ -5,11 +5,17 @@
  *
  * @package    Tpl
  * @category   Driver
- * @author     Kohana Team
- * @copyright  (c) 2008-2013 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author     WinterSilence <info@handy-soft.ru>
+ * @copyright  2013 © handy-soft.ru
+ * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
-abstract class Kohana_Tpl_Fenom extends Tpl_Native {
+abstract class Kohana_Tpl_Fenom implements Kohana_Tpl_Interface {
+
+	/**
+	 * @var  object  Instance of template engine 
+	 */
+	protected $_engine;
 
 	/**
 	 * Create instance of template engine.
@@ -19,18 +25,13 @@ abstract class Kohana_Tpl_Fenom extends Tpl_Native {
 	 */
 	public function __construct(array $config)
 	{
-		parent::__construct($config);
+		// Create engine provider
+		$provider = new Kohana_Tpl_Fenom_Provider($config['extension']);
 		// Create engine instance
-		$template_dir = array_shift($config['template_dir']);
-		$this->_engine = Fenom::factory($template_dir, $config['compile_dir']);
-		// Set engine options
-		$this->_engine->setOptions($config['options']);
-		// Set template dirs
-		foreach ($config['template_dir'] as $dir)
-		{
-			$provider = new Fenom\Provider($dir);
-			$this->_engine->addProvider($dir, $provider);
-		}
+		$this->_engine = Fenom::factory($provider, $config['compile_dir'], $config['options']);
+		// Add modifier default
+		//require_once Kohana::find_file('fenom'.DIRECTORY_SEPARATOR.'modifiers', 'default');
+		//$this->_engine->addModifier('default', 'fenom_modifier_default');
 	}
 
 	/**
@@ -42,7 +43,7 @@ abstract class Kohana_Tpl_Fenom extends Tpl_Native {
 	 */
 	public function render($file, array $data)
 	{
-		return $this->_engine->fetch($file.'.'.$this->_extension, $data);
+		return $this->_engine->fetch($file, $data);
 	}
 
 } // End Tpl_Fenom

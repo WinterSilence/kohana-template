@@ -49,6 +49,51 @@ return array(
 			'debugging'      => Kohana::$errors,
 		),
 	),
+	'twig' => array(
+		/**
+		 * Twig basic options.
+		 * For get more info visit (project page)[http://twig.sensiolabs.org/documentation].
+		 * 
+		 * Type     Name              Description
+		 * --------------------------------------------------------------------------------------------------
+		 * boolean  debug             Display the generated nodes (default to false).
+		 * string   charset           The charset used by the templates (default to utf-8).
+		 * boolean  auto_reload       Recompile the template whenever the source code changes.
+		 * boolean  strict_variables  If set to false, will silently ignore invalid variables.
+		 *                            When set to true,throws an exception instead (default to false).
+		 * mixed    autoescape        Auto-escaping will be enabled by default for all templates (default to true).
+		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 * 
+		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 */
+		'driver'    => 'twig',
+		'extension' => 'twig',
+		'options'   => array(
+			'cache'            => Kohana::$cache_dir.'/twig/',
+			'debug'            => Kohana::$errors,
+			'charset'          => Kohana::$charset,
+			'auto_reload'      => TRUE,
+			'strict_variables' => FALSE,
+			'autoescape'       => Kohana::$environment === Kohana::PRODUCTION,
+			'optimizations'    => Twig_NodeVisitor_Optimizer::OPTIMIZE_ALL,
+		),
+		'globals'   => array(
+			'Kohana' => new Kohana,
+			'I18n'   => new I18n,
+			'URL'    => new URL,
+			'HTML'   => new HTML,
+			'Form'   => new Form,
+			'Route'  => new Route,
+		),
+		'filters'   => array(),
+		'functions' => array(
+			'__'   => '__',
+			'i18n' => '__',
+		),
+	),
 	'fenom' => array(
 		/**
 		 * Fenom basic options.
@@ -84,34 +129,6 @@ return array(
 			'force_verify'         => TRUE,
 			'auto_escape'          => Kohana::$environment === Kohana::PRODUCTION,
 			'auto_trim'            => FALSE,
-		),
-	),
-	'twig' => array(
-		/**
-		 * Twig basic options.
-		 * For get more info visit (project page)[http://twig.sensiolabs.org/documentation].
-		 * 
-		 * Type     Name              Description
-		 * --------------------------------------------------------------------------------------------------
-		 * boolean  debug             Display the generated nodes (default to false).
-		 * string   charset           The charset used by the templates (default to utf-8).
-		 * boolean  auto_reload       Recompile the template whenever the source code changes.
-		 * boolean  strict_variables  If set to false, will silently ignore invalid variables.
-		 *                            When set to true,throws an exception instead (default to false).
-		 * mixed    autoescape        Auto-escaping will be enabled by default for all templates (default to true).
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
-		 *                            
-		 */
-		'driver'    => 'twig',
-		'extension' => 'twig',
-		'options'   => array(
-			'cache'            => Kohana::$cache_dir.'/twig/',
-			'debug'            => Kohana::$errors,
-			'charset'          => Kohana::$charset,
-			'auto_reload'      => TRUE,
-			'strict_variables' => FALSE,
-			'autoescape'       => Kohana::$environment === Kohana::PRODUCTION,
-			'optimizations'    => Twig_NodeVisitor_Optimizer::OPTIMIZE_ALL,
 		),
 	),
 );

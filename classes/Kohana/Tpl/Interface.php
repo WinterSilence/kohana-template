@@ -1,14 +1,15 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Template engine interface.
+ * Interface for driver template engine.
  *
  * @package    Tpl
  * @category   Interface
- * @author     Kohana Team
- * @copyright  (c) 2008-2013 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author     WinterSilence <info@handy-soft.ru>
+ * @copyright  2013 © handy-soft.ru
+ * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
-interface Tpl_Interface {
+interface Kohana_Tpl_Interface {
 
 	/**
 	 * Create driver for template engine.
@@ -27,4 +28,4 @@ interface Tpl_Interface {
 	 */
 	public function render($file, array $data);
 
-} // End Tpl_Engine
+} // End Kohana_Tpl_Interface

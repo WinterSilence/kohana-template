@@ -5,8 +5,9 @@
  * @package    Tpl
  * @category   Controller
  * @author     WinterSilence <info@handy-soft.ru>
- * @copyright  (c) 2013 handy-soft.ru
+ * @copyright  2013 © handy-soft.ru
  * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
 abstract class Kohana_Controller_Tpl extends Controller {
 

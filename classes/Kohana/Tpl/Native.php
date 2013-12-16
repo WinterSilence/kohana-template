@@ -4,21 +4,12 @@
  *
  * @package    Tpl
  * @category   Driver
- * @author     Kohana Team
- * @copyright  (c) 2008-2013 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author     WinterSilence <info@handy-soft.ru>
+ * @copyright  2013 © handy-soft.ru
+ * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
-abstract class Kohana_Tpl_Native implements Tpl_Interface {
-
-	/**
-	 * @var  string  Extension of view file
-	 */
-	protected $_extension = NULL;
-
-	/**
-	 * @var  object  Instance of template engine 
-	 */
-	protected $_engine = NULL;
+abstract class Kohana_Tpl_Native implements Kohana_Tpl_Interface {
 
 	/**
 	 * Create driver for template engine.

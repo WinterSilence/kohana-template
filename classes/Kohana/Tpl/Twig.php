@@ -5,11 +5,17 @@
  *
  * @package    Tpl
  * @category   Driver
- * @author     Kohana Team
- * @copyright  (c) 2008-2013 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author     WinterSilence <info@handy-soft.ru>
+ * @copyright  2013 © handy-soft.ru
+ * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
-abstract class Kohana_Tpl_Twig extends Tpl_Native {
+abstract class Kohana_Tpl_Twig implements Kohana_Tpl_Interface {
+
+	/**
+	 * @var  object  Instance of template engine 
+	 */
+	protected $_engine;
 
 	/**
 	 * Create instance of template engine.
@@ -22,6 +28,29 @@ abstract class Kohana_Tpl_Twig extends Tpl_Native {
 		parent::__construct($config);
 		$loader = new Twig_Loader_Filesystem($config['template_dir']);
 		$this->_engine = new Twig_Environment($loader, $config['options']);
+		//$this->_engine->addExtension(new Kohana_Twig_Extension);
+		// Add global variables
+		foreach ( (array) Arr::get($config, 'globals') as $name => $global)
+		{
+			$this->_engine->addGlobal($name, $global);
+		}
+		// Add filters
+		foreach ( (array) Arr::get($config, 'filters') as $name => $filter)
+		{
+			$this->_engine->addFilter($name, new Twig_Filter_Function($filter));
+		}
+		// Add functions
+		foreach ( (array) Arr::get($config, 'functions') as $name => $function)
+		{
+			if (Arr::is_array($function))
+			{
+				$this->_engine->addFunction($name, new Twig_Function_Method($function[0], $function[1]));
+			}
+			else
+			{
+				$this->_engine->addFunction($name, new Twig_Function_Function($function));
+			}
+		}
 	}
 
 	/**

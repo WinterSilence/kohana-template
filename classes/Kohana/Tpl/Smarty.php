@@ -5,21 +5,22 @@
  *
  * @package    Tpl
  * @category   Driver
- * @author     Kohana Team
- * @copyright  (c) 2008-2013 Kohana Team
- * @license    http://kohanaframework.org/license
+ * @author     WinterSilence <info@handy-soft.ru>
+ * @copyright  2013 © handy-soft.ru
+ * @license    MIT
+ * @link       http://github.com/WinterSilence/kohana-tpl
  */
-abstract class Kohana_Tpl_Smarty extends Tpl_Native {
+abstract class Kohana_Tpl_Smarty implements Kohana_Tpl_Interface {
 
 	/**
 	 * @var  string  Extension of view file
 	 */
-	protected $_extension = NULL;
+	protected $_extension;
 
 	/**
 	 * @var  object  Instance of template engine 
 	 */
-	protected $_engine = NULL;
+	protected $_engine;
 
 	/**
 	 * Create template engine instance.
