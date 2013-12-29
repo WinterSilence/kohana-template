@@ -11,8 +11,8 @@
 		},
 		"classmap": [
 			"vendor/fenom/fenom/src/Fenom.php",
-			"vendor/"playmedia/smarty/libs/Smarty.class.php",
-			"vendor/"playmedia/smarty/libs/SmartyBC.class.php"
+			"vendor/playmedia/smarty/libs/Smarty.class.php",
+			"vendor/playmedia/smarty/libs/SmartyBC.class.php"
 		]
 	}
 }
