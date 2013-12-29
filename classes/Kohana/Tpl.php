@@ -1,7 +1,8 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Acts as an object wrapper for HTML pages with embedded PHP, called "views".
+ * Acts as an object wrapper for HTML pages with embedded PHP, called 'views'.
  * Variables can be assigned with the view object and referenced locally within the view.
+ * Supports popular template engines: Smarty, Twig, Fenom.
  *
  * @package    Tpl
  * @category   Base
@@ -13,44 +14,44 @@
 abstract class Kohana_Tpl {
 
 	/**
-	 * @var  string  Default driver
+	 * @var  string  default driver
 	 */
 	public static $default = 'default';
 
 	/**
-	 * @var  array  Driver instances
+	 * @var  array  driver instances
 	 */
 	protected static $_drivers = array();
 
 	/**
-	 * @var  string  Current driver name
+	 * @var  string  current driver name
 	 */
 	protected $_driver = NULL;
 
 	/**
-	 * @var  string  Template filename
+	 * @var  string  template filename
 	 */
 	protected $_filename = NULL;
 
 	/**
-	 * @var  array  Global variables
+	 * @var  array  global variables
 	 */
 	protected static $_global_data = array();
 
 	/**
-	 * @var  array  Local variables
+	 * @var  array  local variables
 	 */
 	protected $_data = array();
 
 	/**
 	 * Returns a new Tpl object. If you do not define 
-	 * the "file" parameter, you must call [Tpl::filename].
+	 * the parameter 'file', you must call [Tpl::filename].
 	 *
 	 *     $view = Tpl::factory($file, $vars, 'native');
 	 *
-	 * @param   string  $file   Template filename
-	 * @param   array   $data   Array of values
-	 * @param   string  $group  Config group
+	 * @param   string  $file   template filename
+	 * @param   array   $data   array of values
+	 * @param   string  $group  config group
 	 * @return  $this
 	 */
 	public static function factory($file = NULL, array $data = array(), $group = NULL)
@@ -64,9 +65,9 @@ abstract class Kohana_Tpl {
 	 * 
 	 * [!!] This method cannot be accessed directly, you must use [Tpl::factory].
 	 *
-	 * @param   string  $file   Template filename
-	 * @param   array   $data   Array of values
-	 * @param   string  $group  Config group
+	 * @param   string  $file   template filename
+	 * @param   array   $data   array of values
+	 * @param   string  $group  config group
 	 * @return  void
 	 * @uses    Tpl::file
 	 * @uses    Tpl::driver
@@ -101,7 +102,7 @@ abstract class Kohana_Tpl {
 	 *     $view->driver($driver);
 	 *     $ext = $view->driver()->get_extension();
 	 * 
-	 * @param   string  $group  Driver configuration group
+	 * @param   string  $group  driver configuration group
 	 * @return  mixed
 	 * @throws  View_Exception
 	 
@@ -307,9 +308,8 @@ abstract class Kohana_Tpl {
 	/**
 	 * Sets or gets the template filename.
 	 * 
-	 *     $Tpl->filename($path);
-	 *     // Get filename
-	 *     $filename = $Tpl->filename();
+	 *     $tpl->filename($new_name);
+	 *     $filename = $tpl->filename();
 	 *
 	 * @param   string  $file  Template filename
 	 * @return  $this
@@ -330,12 +330,12 @@ abstract class Kohana_Tpl {
 	}
 
 	/**
-	 * Delete all local and [optional]global variables.
+	 * Delete all local and global variables [Optional].
 	 *
 	 *     // Full clear
 	 *     $view->clear(TRUE);
 	 *
-	 * @param  bool  $clear_globals  Delete global data?
+	 * @param  bool  $clear_globals  delete global data?
 	 * @return $this
 	 */
 	public function clear($clear_globals = FALSE)
@@ -417,7 +417,7 @@ abstract class Kohana_Tpl {
 	 *
 	 * @param   string  $file    view filename
 	 * @param   string  $driver  template driver driver
-	 * @param   bool    $clear   delete local variables after render?
+	 * @param   bool    $clear   delete variables after render?
 	 * @return  string
 	 * @throws  View_Exception
 	 * @uses    self::capture
@@ -445,7 +445,7 @@ abstract class Kohana_Tpl {
 
 		if (is_bool($clear))
 		{
-			// Delete local data
+			// Delete variables
 			$this->clear($clear);
 		}
 

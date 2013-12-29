@@ -1,7 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Twig template engine driver. 
- * For get more info visit (project home page)[http://twig.sensiolabs.org/documentation].
+ * Tpl driver for [Twig template engine](http://twig.sensiolabs.org/) . 
  *
  * @package    Tpl
  * @category   Driver
@@ -13,19 +12,19 @@
 abstract class Kohana_Tpl_Twig implements Kohana_Tpl_Interface {
 
 	/**
-	 * @var  string  Extension of view file
+	 * @var  string  extension of view file
 	 */
 	protected $_extension;
 
 	/**
-	 * @var  object  Instance of template engine 
+	 * @var  object  instance of template engine 
 	 */
 	protected $_engine;
 
 	/**
 	 * Create instance of template engine.
 	 * 
-	 * @param   array  $config  Engine settings
+	 * @param   array  $config  engine settings
 	 * @return  void
 	 */
 	public function __construct(array $config)
@@ -61,8 +60,8 @@ abstract class Kohana_Tpl_Twig implements Kohana_Tpl_Interface {
 	/**
 	 * Renders the view object to a string.
 	 * 
-	 * @param   string  $file  Template file
-	 * @param   array   $data  Template variables
+	 * @param   string  $file  template file
+	 * @param   array   $data  template variables
 	 * @return  string
 	 */
 	public function render($file, array $data)

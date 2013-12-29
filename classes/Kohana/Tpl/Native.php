@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Native template engine driver.
+ * Tpl driver for native template engine.
  *
  * @package    Tpl
  * @category   Driver
@@ -12,14 +12,14 @@
 abstract class Kohana_Tpl_Native implements Kohana_Tpl_Interface {
 
 	/**
-	 * @var  string  Extension of view file
+	 * @var  string  extension of view file
 	 */
 	protected $_extension;
 
 	/**
 	 * Create driver for template engine.
 	 * 
-	 * @param   array  $config  Engine settings
+	 * @param   array  $config  engine settings
 	 * @return  void
 	 */
 	public function __construct(array $config)
@@ -30,8 +30,8 @@ abstract class Kohana_Tpl_Native implements Kohana_Tpl_Interface {
 	/**
 	 * Renders the view object to a string.
 	 * 
-	 * @param   string  $kohana_tpl_file  Template file
-	 * @param   array   $kohana_tpl_data  Template variables 
+	 * @param   string  $kohana_tpl_file  template file
+	 * @param   array   $kohana_tpl_data  template variables 
 	 * @return  string
 	 */
 	private function _render($kohana_tpl_file, array $kohana_tpl_data)
@@ -59,8 +59,8 @@ abstract class Kohana_Tpl_Native implements Kohana_Tpl_Interface {
 	/**
 	 * Renders the template object to a string.
 	 * 
-	 * @param   string  $file  Template file
-	 * @param   array   $data  Template variables 
+	 * @param   string  $file  template file
+	 * @param   array   $data  template variables
 	 * @return  string
 	 */
 	public function render($file, array $data)

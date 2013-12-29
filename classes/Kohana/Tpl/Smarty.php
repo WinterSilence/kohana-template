@@ -1,7 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Smarty template engine driver. 
- * For get more info visit (project home page)[http://www.smarty.net/docs/en/].
+ * Tpl driver for [Smarty template engine](http://smarty.net/docs/en/).
  *
  * @package    Tpl
  * @category   Driver
@@ -13,19 +12,19 @@
 abstract class Kohana_Tpl_Smarty implements Kohana_Tpl_Interface {
 
 	/**
-	 * @var  string  Extension of view file
+	 * @var  string  extension of view file
 	 */
 	protected $_extension;
 
 	/**
-	 * @var  object  Instance of template engine 
+	 * @var  object  instance of template engine 
 	 */
 	protected $_engine;
 
 	/**
 	 * Create template engine instance.
 	 * 
-	 * @param   array  $config  Engine options
+	 * @param   array  $config  engine options
 	 * @return  void
 	 */
 	public function __construct(array $config)
@@ -45,8 +44,8 @@ abstract class Kohana_Tpl_Smarty implements Kohana_Tpl_Interface {
 	/**
 	 * Renders the view object to a string.
 	 * 
-	 * @param   string  $file  Template file
-	 * @param   array   $data  Template variables
+	 * @param   string  $file  template file
+	 * @param   array   $data  template variables
 	 * @return  string
 	 */
 	public function render($file, array $data)

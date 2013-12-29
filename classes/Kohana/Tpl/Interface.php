@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Interface for driver template engine.
+ * Interface of driver for template engine.
  *
  * @package    Tpl
  * @category   Interface
@@ -14,7 +14,7 @@ interface Kohana_Tpl_Interface {
 	/**
 	 * Create driver for template engine.
 	 * 
-	 * @param   array  $config  Engine settings
+	 * @param   array  $config  engine settings
 	 * @return  void
 	 */
 	public function __construct(array $config);
@@ -22,8 +22,8 @@ interface Kohana_Tpl_Interface {
 	/**
 	 * Renders the view object to a string.
 	 * 
-	 * @param   string  $file  Template file
-	 * @param   array   $data  Template variables 
+	 * @param   string  $file  template file
+	 * @param   array   $data  template variables 
 	 * @return  string
 	 */
 	public function render($file, array $data);

@@ -15,7 +15,7 @@ use Fenom\ProviderInterface;
 class Kohana_Tpl_Fenom_Provider implements ProviderInterface {
 
 	/**
-	 * @var  string  Template extension
+	 * @var  string  template extension
 	 */
 	private $_extension;
 

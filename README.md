@@ -1,9 +1,15 @@
-## Tpl(Template) module for Kohana framework 3.3
+## Template module for Kohana framework 3.3
 
-Based on the Kohana View, has a number of additional methods, supports popular template engines (Smarty, Twig, Fenom). 
-Also contains Controller_Tpl, which is an improved version Kohana Controller_Template.
+Based on the Kohana [View](../kohana/mvc/views), has a number of additional methods.
 
-### Tpl view:
+Supports popular template engines:
+- [Smarty](http://smarty.net)
+- [Twig](http://twig.sensiolabs.org)
+- [Fenom](http://github.com/bzick/fenom))
+
+Contains [Controller_Tpl](http://github.com/WinterSilence/kohana-tpl/blob/master/classes/Kohana/Controller/Tpl.php), which is an improved version Kohana [Controller_Template](http://kohanaframework.org/3.3/guide-api/Controller_Template).
+
+### Tpl view
 ~~~
 // Create view using Smarty template engine
 $view_smarty = Tpl::factory('news/list', array('news' => $news), 'smarty');
@@ -29,7 +35,7 @@ $view_native->clear(TRUE);
 $content = $view_native->render($new_template, $new_engine, $clear_local);
 ~~~
 
-### Kohana helpers in templates:
+### Kohana helpers in templates
 
 **Smarty**
 Calling Kohana helpers occurs without any problems.
@@ -54,10 +60,10 @@ Call helper template is not currently supported.
 <meta charset="{$charset}">
 ~~~
 
-### Controller_Tpl:
+### Controller_Tpl
 
 The controller uses 3 template nested:
-- $tpl_page - Main page content. Varies depending on the controller and action[optional].
+- $tpl_page - Main page content. Varies depending on the controller and action [Optional].
 - $tpl_theme - Theme-wrapper for the main content. Used to set the overall style page.
 - $tpl_theme->content - Contains $tpl_page.
 - $tpl_frame - Document skeleton, the main task of forming `head` section.
@@ -65,18 +71,20 @@ The controller uses 3 template nested:
 
 This approach allows incrementally generate page content. 
 It is necessary for the formation of convenient page head container 
-and the convenience of connecting widgets\snippets in the theme\page.
+and the convenience of connecting widgets/snippets in the theme/page.
 
 If path to $tpl_page file not set, it automatically generated based on the controller and action.
-For example, Controller_News - action_index, $tpl_page = 'news/index'.
 
 ~~~
+/**
+ * Controller_News - action_index, $tpl_page = 'news/index'.
+ */
 class Controller_News extends Controller_Tpl {
 
 	// Frame template
-	public $tpl_frame = 'frame';
+	public $tpl_frame = 'frame/default';
 	// Theme template
-	public $tpl_theme = 'themes/default';
+	public $tpl_theme = 'theme/default';
 	// Page template.
 	public $tpl_page = NULL;
 	

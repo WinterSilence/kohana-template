@@ -1,13 +1,15 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
- * Template engine drivers configuration.
+ * Configuration for drivers of template engine.
  * 
- * Basic config group:
+ * Required options:
+ * ~~~
  *   'native' => array(
  *     'driver'    => 'native', // Driver name
  *     'extension' => 'php',    // Extension of template file 
  *     'options'   => array(),  // Engine configururation
  *   ),
+ * ~~~
  */
 return array(
 	'default' => array(
@@ -17,22 +19,21 @@ return array(
 	),
 	'smarty' => array(
 		/**
-		 * Smarty basic options.
-		 * For get more info visit (project page)[http://www.smarty.net/docs/en/api.variables.tpl].
+		 * [Smarty configuration](http://smarty.net/docs/en/api.variables.tpl).
 		 * 
-		 * Type     Name            Description
-		 * --------------------------------------------------------------------------------------------------
-		 * string   class_name      Called class (Smarty - frontend, SmartyBC - backend).
-		 * string   template_dir    Default template directory or directories.
-		 * string   cache_dir       Directory where template caches are stored.
-		 * string   compile_dir     Directory where compiled templates are located.
-		 * string   config_dir      Directory or directories used to store config files used in the templates.
-		 * boolean  caching         Caching enabled?
-		 * integer  cache_lifetime  Cache lifetime in seconds.
-		 * boolean  force_cache     Update cache templates on every invocation?
-		 * boolean  force_compile   Update compile templates on every invocation?
-		 * boolean  escape_html     Will escape all template variable output?
-		 * boolean  debugging       Enables the debug-console?
+		 * Type    | Name           | Description
+		 * ------- | ------------------------------------------------------------------------------------------
+		 * string  | class_name     | Called class (Smarty - frontend, SmartyBC - backend).
+		 * string  | template_dir   | Default template directory or directories.
+		 * string  | cache_dir      | Directory where template caches are stored.
+		 * string  | compile_dir    | Directory where compiled templates are located.
+		 * string  | config_dir     | Directory or directories used to store config files used in the templates.
+		 * boolean | caching        | Caching enabled?
+		 * integer | cache_lifetime | Cache lifetime in seconds.
+		 * boolean | force_cache    | Update cache templates on every invocation?
+		 * boolean | force_compile  | Update compile templates on every invocation?
+		 * boolean | escape_html    | Will escape all template variable output?
+		 * boolean | debugging      | Enables the debug-console?
 		 */
 		'driver'     => 'smarty',
 		'extension'  => 'html',
@@ -51,23 +52,19 @@ return array(
 	),
 	'twig' => array(
 		/**
-		 * Twig basic options.
-		 * For get more info visit (project page)[http://twig.sensiolabs.org/documentation].
+		 * [Twig configuration](http://twig.sensiolabs.org/).
 		 * 
-		 * Type     Name              Description
+		 * Type    | Name             | Description
 		 * --------------------------------------------------------------------------------------------------
-		 * boolean  debug             Display the generated nodes (default to false).
-		 * string   charset           The charset used by the templates (default to utf-8).
-		 * boolean  auto_reload       Recompile the template whenever the source code changes.
-		 * boolean  strict_variables  If set to false, will silently ignore invalid variables.
-		 *                            When set to true,throws an exception instead (default to false).
-		 * mixed    autoescape        Auto-escaping will be enabled by default for all templates (default to true).
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
-		 * 
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
-		 * integer  optimizations     A flag that indicates which optimizations to apply (default to -1).
+		 * boolean | debug            | Display the generated nodes (default to FALSE).
+		 * string  | charset          | The charset used by the templates (default to utf-8).
+		 * boolean | auto_reload      | Recompile the template whenever the source code changes.
+		 * boolean | strict_variables | If set to FALSE, will silently ignore invalid variables, else throws an exception instead.
+		 * mixed   | autoescape       | Auto-escaping will be enabled by default for all templates (default to true).
+		 * integer | optimizations    | A flag that indicates which optimizations to apply (default to -1).
+		 * array   | globals          | Global variables.
+		 * array   | filters          | Filters.
+		 * array   | functions        | Functions.
 		 */
 		'driver'    => 'twig',
 		'extension' => 'twig',
@@ -81,39 +78,42 @@ return array(
 			'optimizations'    => Twig_NodeVisitor_Optimizer::OPTIMIZE_ALL,
 		),
 		'globals'   => array(
+			/*
 			'Kohana' => new Kohana,
 			'I18n'   => new I18n,
 			'URL'    => new URL,
 			'HTML'   => new HTML,
 			'Form'   => new Form,
 			'Route'  => new Route,
+			*/
 		),
 		'filters'   => array(),
 		'functions' => array(
+			/*
 			'__'   => '__',
 			'i18n' => '__',
+			*/
 		),
 	),
 	'fenom' => array(
 		/**
-		 * Fenom basic options.
-		 * For get more info visit (project page)[https://github.com/bzick/fenom/].
+		 * [Fenom configuration](http://github.com/bzick/fenom/).
 		 * 
-		 * Type     Name                  Description
+		 * Type    | Name                 | Description
 		 * --------------------------------------------------------------------------------------------------
-		 * boolean  disable_statics       Disable statics variables in the template.
-		 * boolean  disable_cache         Not cache templates.
-		 * boolean  disable_methods       Disable calling methods in templates.
-		 * boolean  disable_native_funcs  Prohibit the use of PHP functions, except as permitted.
-		 * array    allowed_funcs         Array of allowed functions name.
-		 * boolean  auto_reload           Rebuild if the original template has been changed.
-		 * boolean  force_compile         Recompile the template for each invocation.
-		 * boolean  force_include         Optimize insert template in the template..
-		 * boolean  force_verify          Check issued by each variable and return NULL if the variable does not exist.
-		 * boolean  auto_escape           All output variables and function results will be escaped.
-		 * boolean  auto_trim             At compile all whitespace between the tags will be deleted.
-		 * string   template_dir          Default template directory.
-		 * string   compile_dir           Directory where compiled templates are located.
+		 * boolean | disable_statics      | Disable statics variables in the template.
+		 * boolean | disable_cache        | Not cache templates.
+		 * boolean | disable_methods      | Disable calling methods in templates.
+		 * boolean | disable_native_funcs | Prohibit the use of PHP functions, except as permitted.
+		 * array   | allowed_funcs        | Array of allowed functions name.
+		 * boolean | auto_reload          | Rebuild if the original template has been changed.
+		 * boolean | force_compile        | Recompile the template for each invocation.
+		 * boolean | force_include        | Optimize insert template in the template..
+		 * boolean | force_verify         | Check issued by each variable and return NULL if the variable does not exist.
+		 * boolean | auto_escape          | All output variables and function results will be escaped.
+		 * boolean | auto_trim            | At compile all whitespace between the tags will be deleted.
+		 * string  | template_dir         | Default template directory.
+		 * string  | compile_dir          | Directory where compiled templates are located.
 		 */
 		'driver'      => 'fenom',
 		'extension'   => 'tpl',
