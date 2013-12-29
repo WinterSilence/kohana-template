@@ -1,8 +1,7 @@
 <?php defined('SYSPATH') OR die('No direct script access.');
 /**
  * Acts as an object wrapper for HTML pages with embedded PHP, called "views".
- * Variables can be assigned with the view object and referenced locally within
- * the view.
+ * Variables can be assigned with the view object and referenced locally within the view.
  *
  * @package    Tpl
  * @category   Base
@@ -44,8 +43,8 @@ abstract class Kohana_Tpl {
 	protected $_data = array();
 
 	/**
-	 * Returns a new Tpl object. If you do not define the "file" parameter,
-	 * you must call [Tpl::filename].
+	 * Returns a new Tpl object. If you do not define 
+	 * the "file" parameter, you must call [Tpl::filename].
 	 *
 	 *     $view = Tpl::factory($file, $vars, 'native');
 	 *
@@ -423,7 +422,7 @@ abstract class Kohana_Tpl {
 	 * @throws  View_Exception
 	 * @uses    self::capture
 	 */
-	public function render($file = NULL, $driver = NULL, $clear = FALSE)
+	public function render($file = NULL, $driver = NULL, $clear = NULL)
 	{
 		if ($driver !== NULL)
 		{
@@ -444,10 +443,10 @@ abstract class Kohana_Tpl {
 		// Combine local and global data and capture the output
 		$result = self::capture($this->filename(), $this->_data, $this->driver());
 
-		if ($clear)
+		if (is_bool($clear))
 		{
 			// Delete local data
-			$this->clear();
+			$this->clear($clear);
 		}
 
 		return $result;
