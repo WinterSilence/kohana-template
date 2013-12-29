@@ -1,7 +1,6 @@
 ## Template module for Kohana framework 3.3
 
 Based on the Kohana [View](../kohana/mvc/views), has a number of additional methods.
-
 Supports popular template engines:
 - [Smarty](http://smarty.net)
 - [Twig](http://twig.sensiolabs.org)
@@ -87,16 +86,15 @@ If path to $tpl_page file not set, it automatically generated based on the contr
  */
 class Controller_News extends Controller_Tpl {
 
-	// Frame template
-	public $tpl_frame = 'frames/default';
-	// Theme template
-	public $tpl_theme = 'themes/default';
-
 	public function action_index()
 	{
-		// Send 5 latest news in page template
+		// Add 5 latest news in template 'page' using ORM
 		$this->tpl_page->news = ORM::factory('News')->find_latest(5);
-		// Send title and styles in frame template
+		// Add left menu in template 'theme' using  HMVC request
+		$this->tpl_theme->left_menu = Request::factory('widget/menu/left')->execute();
+		// Add auth block in template 'theme' using HMVC request
+		$this->tpl_theme->auth = Request::factory('widget/auth')->execute();
+		// Add styles in template 'frame'
 		$this->tpl_frame->styles = array('bootstrap.css', 'red-theme.css');
 	}
 
