@@ -5,9 +5,10 @@ Based on the Kohana [View](../kohana/mvc/views), has a number of additional meth
 Supports popular template engines:
 - [Smarty](http://smarty.net)
 - [Twig](http://twig.sensiolabs.org)
-- [Fenom](http://github.com/bzick/fenom))
+- [Fenom](http://github.com/bzick/fenom)
 
-Contains [Controller_Tpl](http://github.com/WinterSilence/kohana-tpl/blob/master/classes/Kohana/Controller/Tpl.php), which is an improved version Kohana [Controller_Template](http://kohanaframework.org/3.3/guide-api/Controller_Template).
+Contains [Controller_Tpl](http://github.com/WinterSilence/kohana-tpl/blob/master/classes/Kohana/Controller/Tpl.php), 
+which is an improved version Kohana [Controller_Template](http://kohanaframework.org/3.3/guide-api/Controller_Template).
 
 ### Tpl view
 ~~~
@@ -38,13 +39,16 @@ $content = $view_native->render($new_template, $new_engine, $clear_local);
 ### Kohana helpers in templates
 
 **Smarty**
+
 Calling Kohana helpers occurs without any problems.
 ~~~
 <base href="{URL::base()}">
 <title>{$title|default:''}</title>
 <meta charset="{Kohana::$charset}">
 ~~~
+
 **Twig**
+
 To use a helper is necessary to register them in `tpl.twig.globals`.
 Use a dot instead of a double colon for dividing the class name and method in template.
 ~~~
@@ -52,7 +56,9 @@ Use a dot instead of a double colon for dividing the class name and method in te
 <title>{{ title|default('') }}</title>
 <meta charset="{{ Kohana.charset }}">
 ~~~
+
 **Fenom**
+
 Call helper template is not currently supported.
 ~~~
 <base href="{$url_base}">
@@ -77,23 +83,20 @@ If path to $tpl_page file not set, it automatically generated based on the contr
 
 ~~~
 /**
- * Controller_News - action_index, $tpl_page = 'news/index'.
+ * Controller_News - action_index, $tpl_page = 'views/news/index.php', $tpl_page = 'news - index';
  */
 class Controller_News extends Controller_Tpl {
 
 	// Frame template
-	public $tpl_frame = 'frame/default';
+	public $tpl_frame = 'frames/default';
 	// Theme template
-	public $tpl_theme = 'theme/default';
-	// Page template.
-	public $tpl_page = NULL;
-	
+	public $tpl_theme = 'themes/default';
+
 	public function action_index()
 	{
 		// Send 5 latest news in page template
 		$this->tpl_page->news = ORM::factory('News')->find_latest(5);
 		// Send title and styles in frame template
-		$this->tpl_frame->title = __('Latest news');
 		$this->tpl_frame->styles = array('bootstrap.css', 'red-theme.css');
 	}
 
