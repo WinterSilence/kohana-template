@@ -66,7 +66,7 @@ Accepted only if config option `template.fenom.options.disable_call` is `FALSE`.
 
 ### Controller_Layout
 
-The controller uses 2 nested template:
+The controller uses nested template:
 - `$this->template` - main content
 - `$this->layout` - wrapper/theme for main content, `$this->layout->content` contains `$this->template`
 
