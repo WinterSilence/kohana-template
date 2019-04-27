@@ -70,7 +70,7 @@ return [
 			'debug'            => KO7::$errors,
 			'charset'          => KO7::$charset,
 			'auto_reload'      => TRUE,
-			'strict_variables' => FALSE,
+			'strict_variables' => KO7::$environment != KO7::PRODUCTION,
 			'autoescape'       => KO7::$environment == KO7::PRODUCTION,
 			'optimizations'    => -1,
 		],
