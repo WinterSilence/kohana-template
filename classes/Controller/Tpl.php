@@ -1,3 +1,4 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
-class Controller_Tpl extends Kohana_Controller_Tpl {}
+class Controller_Layout extends KO7_Controller_Layout {
+}
