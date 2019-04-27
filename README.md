@@ -81,13 +81,10 @@ class Controller_Frontend_News extends Controller_Layout {
 	public function action_list()
 	{
 		// $this->template = 'frontend/news/list'
-		
 		// Adds banner to layout using  HMVC request
 		$this->layout->banner = Request::factory('banners/news')->execute();
-		
 		// Adds news to template using ORM
 		$this->template->news = ORM::factory('News')->find_all();
 	}
-
 }
 ~~~
