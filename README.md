@@ -37,7 +37,19 @@ $content = $view->render($template, $adapter, TRUE);
 
 ### Helper classes in template
 
+**Native**
+
+Helper method `$this->template($template, $optional_data)` render sub-template, uses adapter and variables of parent template.
+
+~~~
+<base href="<?=URL::base()?>">
+<title><?=(isset($title) ? $title : '...')?></title>
+<meta charset="<?=KO7::$charset?>">
+<?=$this->template('menu/top')?>
+~~~
+
 **Smarty**
+
 Calling helpers occurs without any problems.
 ~~~
 <base href="{URL::base()}">
@@ -45,6 +57,7 @@ Calling helpers occurs without any problems.
 <meta charset="{KO7::$charset}">
 ~~~
 **Twig**
+
 To use a helper is necessary to register them in config option`template.twig.globals`.
 Use a dot instead of a double colon for dividing the class and method in template.
 ~~~
@@ -53,6 +66,7 @@ Use a dot instead of a double colon for dividing the class and method in templat
 <meta charset="{{ KO7.charset }}">
 ~~~
 **Fenom**
+
 Accepted only if config option `template.fenom.options.disable_call` is `FALSE`.
 ~~~
 <base href="{$.call.URL::base()}">
