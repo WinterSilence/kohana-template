@@ -1,18 +1,7 @@
 {
 	"require": {
-		"twig/twig": "1.*",
-		"fenom/fenom": "1.*",
-		"playmedia/smarty": "3.*"
-	},
-	"autoload": {
-		"psr-0": {
-			"Fenom\\": "vendor/fenom/fenom/src/",
-			"Twig_":   "vendor/twig/twig/lib/"
-		},
-		"classmap": [
-			"vendor/fenom/fenom/src/Fenom.php",
-			"vendor/playmedia/smarty/libs/Smarty.class.php",
-			"vendor/playmedia/smarty/libs/SmartyBC.class.php"
-		]
+		"smarty/smarty": "3.*",
+		"fenom/fenom": "2.*",
+		"twig/twig": "2.*"
 	}
 }
