@@ -8,7 +8,7 @@
  * @copyright  2013-2020 © Enso studio
  * @license    MIT
  */
-abstract class Kohana_Tpl_Fenom implements Kohana_Tpl_Interface
+abstract class Kohana_Tpl_Fenom implements Kohana_Tpl_Adapter
 {
 	/**
 	 * @var Fenom\Extra Fenom instance
