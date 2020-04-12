@@ -1,23 +1,26 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 /**
- * Configuration for drivers of template engine.
+ * Configuration for adapters of template engines.
  * 
  * Required options:
- * ~~~
- *   'native' => array(
- *     'driver'    => 'native', // Driver name
- *     'extension' => 'php',    // Extension of template file 
- *     'options'   => array(),  // Engine configururation
- *   ),
+ 
+ * ~~~php
+ * 'native' => [
+ *     'adapter'   => 'native', // adapter name
+ *     'extension' => 'tpl',    // template extension
+ *     'options'   => [],       // configururation of template engine
+ * ],
  * ~~~
  */
-return array(
-	'default' => array(
+return [
+	'default' => [
 		'driver'    => 'native',
 		'extension' => 'php',
-		'options'   => array(),
-	),
-	'smarty' => array(
+		'options'   => [
+			'cache_dir' => Kohana::$cache_dir.'/tpl_native',
+		],
+	],
+	'smarty' => [
 		/**
 		 * [Smarty configuration](http://smarty.net/docs/en/api.variables.tpl).
 		 * 
@@ -36,23 +39,23 @@ return array(
 		 * boolean | debugging      | Enables the debug-console?
 		 */
 		'driver'     => 'smarty',
-		'extension'  => 'html',
+		'extension'  => 'tpl',
 		'class_name' => 'Smarty',
-		'options'    => array(
-			'config_dir'     => array(APPPATH.'config'),
-			'cache_dir'      => Kohana::$cache_dir.'/smarty/cache/',
-			'compile_dir'    => Kohana::$cache_dir.'/smarty/compile/',
+		'options'    => [
+			'config_dir'     => [APPPATH.'config'],
+			'cache_dir'      => Kohana::$cache_dir.'/tpl_smarty_cache',
+			'compile_dir'    => Kohana::$cache_dir.'/tpl_smarty_compile',
 			'caching'        => Kohana::$caching,
 			'cache_lifetime' => Kohana::$cache_life,
-			'force_cache'    => TRUE,
-			'force_compile'  => TRUE,
-			'escape_html'    => Kohana::$environment === Kohana::PRODUCTION,
+			'force_cache'    => true,
+			'force_compile'  => ! Kohana::$caching,
+			'escape_html'    => false,
 			'debugging'      => Kohana::$errors,
-		),
-	),
-	'twig' => array(
+		],
+	],
+	'twig' => [
 		/**
-		 * [Twig configuration](http://twig.sensiolabs.org/).
+		 * [Twig](https://twig.symfony.com). configuration
 		 * 
 		 * Type    | Name             | Description
 		 * --------------------------------------------------------------------------------------------------
@@ -68,34 +71,30 @@ return array(
 		 */
 		'driver'    => 'twig',
 		'extension' => 'twig',
-		'options'   => array(
-			'cache'            => Kohana::$cache_dir.'/twig/',
+		'options'   => [
+			'cache'            => Kohana::$cache_dir.'/tpl_twig',
 			'debug'            => Kohana::$errors,
 			'charset'          => Kohana::$charset,
-			'auto_reload'      => TRUE,
-			'strict_variables' => FALSE,
-			'autoescape'       => Kohana::$environment === Kohana::PRODUCTION,
+			'auto_reload'      => true,
+			'strict_variables' => false,
+			'autoescape'       => false,
 			'optimizations'    => Twig_NodeVisitor_Optimizer::OPTIMIZE_ALL,
-		),
-		'globals'   => array(
-			/*
-			'Kohana' => new Kohana,
-			'I18n'   => new I18n,
-			'URL'    => new URL,
-			'HTML'   => new HTML,
-			'Form'   => new Form,
-			'Route'  => new Route,
-			*/
-		),
-		'filters'   => array(),
-		'functions' => array(
-			/*
+		],
+		'globals'   => [
+			'Kohana' => new Kohana(),
+			'I18n'   => new I18n(),
+			'URL'    => new URL(),
+			'HTML'   => new HTML(),
+			'Form'   => new Form(),
+			'Route'  => new Route(),
+		],
+		'filters'   => [],
+		'functions' => [
 			'__'   => '__',
 			'i18n' => '__',
-			*/
-		),
-	),
-	'fenom' => array(
+		],
+	],
+	'fenom' => [
 		/**
 		 * [Fenom configuration](http://github.com/bzick/fenom/).
 		 * 
@@ -117,18 +116,15 @@ return array(
 		 */
 		'driver'      => 'fenom',
 		'extension'   => 'tpl',
-		'compile_dir' => Kohana::$cache_dir.'/fenom/',
-		'options'     => array(
-			'disable_statics'      => FALSE,
+		'cache_dir'   => Kohana::$cache_dir.'/tpl_fenom',
+		'options'     => [
 			'disable_cache'        => ! Kohana::$caching,
-			'disable_methods'      => FALSE,
-			'disable_native_funcs' => FALSE,
-			'auto_reload'          => TRUE,
-			'force_compile'        => TRUE,
-			'force_include'        => TRUE,
-			'force_verify'         => TRUE,
-			'auto_escape'          => Kohana::$environment === Kohana::PRODUCTION,
-			'auto_trim'            => FALSE,
-		),
-	),
-);
+			'auto_reload'          => true,
+			'force_compile'        => ! Kohana::$caching,
+			'force_include'        => true,
+			'force_verify'         => true,
+			'auto_escape'          => false,
+			'auto_trim'            => false,
+		],
+	],
+];
