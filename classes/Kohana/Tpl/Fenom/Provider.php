@@ -1,190 +1,140 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 
 use Fenom\ProviderInterface;
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
 
 /**
- * Fenom template provider.
+ * Fenom template provider for Kohana's cascading filesystem.
  *
- * @package    Tpl
- * @category   Fenom
- * @author     WinterSilence <info@handy-soft.ru>
- * @copyright  2013 © handy-soft.ru
+ * @package    Kohana\Template
+ * @category   View
+ * @author     WinterSilence <info@ensostudio.ru>
+ * @copyright  2013-2020 © Enso studio
  * @license    MIT
- * @link       http://github.com/WinterSilence/kohana-tpl
  */
-class Kohana_Tpl_Fenom_Provider implements ProviderInterface {
-
+class Kohana_Tpl_Fenom_Provider implements ProviderInterface
+{
 	/**
-	 * @var  string  template extension
+	 * @var string Template extension.
 	 */
-	private $_extension;
-
+	protected $extension;
+	
 	/**
-	 * Clean directory from files
-	 *
-	 * @param  string  $path
+	 * Creates new instance.
+	 * 
+	 * @param string $extension Template extension
 	 * @return void
 	 */
-	public function clean($path)
+	public function __construct(string $extension = 'tpl')
 	{
-		if (is_file($path))
-		{
-			unlink($path);
-		}
-		elseif (is_dir($path))
-		{
-			$iterator = iterator_to_array(
-				new \RecursiveIteratorIterator(
-					new \RecursiveDirectoryIterator($path,
-						\FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS),
-					\RecursiveIteratorIterator::CHILD_FIRST
-				)
-			);
-			foreach ($iterator as $file)
-			{
-				/* @var \splFileInfo $file */
-				if ($file->isFile())
-				{
-					if (strpos($file->getBasename(), '.') !== 0)
-					{
-						unlink($file->getRealPath());
-					}
-				}
-				elseif ($file->isDir())
-				{
-					rmdir($file->getRealPath());
-				}
-			}
-		}
+		$this->extension = $extension;
 	}
-
+	
 	/**
-	 * Recursive remove directory
-	 *
-	 * @param string $path
-	 * @return void
+	 * Get template path.
+	 * 
+	 * @param   string  $tpl Template name
+	 * @param   bool $throws Throws exception if file not exist?
+	 * @return  string|null
+	 * @throws  View_Exception Template not found
 	 */
-	public static function rm($path)
+	public function getTemplatePath(string $tpl, bool $throws = true): ?string
 	{
-		$this->clean($path);
-		if (is_dir($path))
-		{
-			rmdir($path);
+		$path = Kohana::find_file('views', $tpl, $this->extension);
+		if ($throws && ! $path) {
+			throw new View_Exception('Template :tpl not found', [':tpl' => $tpl]);
 		}
+		return $path ?: null;
 	}
+	
 
 	/**
+	 * Get last modified of template by name.
 	 * 
-	 * 
-	 * @param   string  $extension  Template extension
-	 * @return  void
-	 * @throws  \LogicException  if directory doesn't exists
+	 * @param string $tpl Template name or path
+	 * @return int
 	 */
-	public function __construct($extension = 'tpl')
+	public function getLastModified(string $tpl): int
 	{
-		$this->_extension = $extension;
+		$path = is_file($tpl) ? $tpl : $this->getTemplatePath($tpl);
+		if (! Kohana::$caching) {
+			clearstatcache(TRUE, $path);
+		}
+		return filemtime($path);
 	}
 
 	/**
-	 * Get source and mtime of template by name
+	 * Get source and mtime of template by name.
 	 * 
-	 * @param  string   $tpl
-	 * @param  integer  $time  Load last modified time
+	 * @param string $tpl Template name
+	 * @param int $time Last modified time, set by reference
 	 * @return string
 	 */
-	public function getSource($tpl, &$time)
+	public function getSource(string $tpl, int &$time): string 
 	{
-		$tpl = $this->_getTemplatePath($tpl);
-		clearstatcache(TRUE, $tpl);
-		$time = filemtime($tpl);
+		$path = $this->getTemplatePath($tpl);
+		$time = $this->getLastModified($path);
 		return file_get_contents($tpl);
 	}
 
 	/**
-	 * Get last modified of template by name
+	 * Get all templates of provider.
 	 * 
-	 * @param   string   $tpl
-	 * @return  integer
+	 * @return array
 	 */
-	public function getLastModified($tpl)
+	public function getList(): array
 	{
-		$tpl = $this->_getTemplatePath($tpl);
-		clearstatcache(TRUE, $tpl);
-		return filemtime($tpl);
-	}
-
-	/**
-	 * Get all names of templates from provider.
-	 * 
-	 * @return array|\Iterator
-	 */
-	public function getList()
-	{
-		$list = array();
-		foreach (Kohana::include_paths() as $path)
-		{
+		$list = [];
+		foreach (Kohana::include_paths() as $path) {
 			$path .= 'views';
-			$iterator = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($path,
-					\FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS),
-				\RecursiveIteratorIterator::CHILD_FIRST
+			if (! is_dir($path)) {
+				continue;
+			}
+			$pathLen = strlen($path) + 1;
+			$iterator = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator(
+					$path,
+					RecursiveDirectoryIterator::CURRENT_AS_FILEINFO | RecursiveDirectoryIterator::SKIP_DOTS
+				),
+				RecursiveIteratorIterator::CHILD_FIRST
 			);
-			$path_len = strlen($path);
-			foreach ($iterator as $file)
-			{
-				/* @var \SplFileInfo $file */
-				if ($file->isFile() AND $file->getExtension() === $this->_extension)
-				{
-					$list[] = substr($file->getPathname(), $path_len + 1);
+			/* @var \SplFileInfo $info */
+			foreach ($iterator as $info) {
+				if ($info->isFile() && $info->getExtension() == $this->extension) {
+					$list[] = substr($info->getRealPath(), $pathLen);
 				}
 			}
 		}
-		return $list;
+		return array_unique($list);
 	}
 
 	/**
-	 * Get template path
-	 * 
-	 * @param   string  $tpl
-	 * @return  string
-	 * @throws  \RuntimeException
-	 */
-	protected function _getTemplatePath($tpl)
-	{
-		$path = Kohana::find_file('views', $tpl, $this->_extension);
-		if ($path === NULL)
-		{
-			throw new \RuntimeException('Template {$tpl} not found');
-		}
-		return $path;
-	}
-
-	/**
-	 * @param   string  $tpl
+	 * @param  string $tpl Template name
 	 * @return  bool
 	 */
-	public function templateExists($tpl)
+	public function templateExists(string $tpl): bool
 	{
-		return (bool) Kohana::find_file('views', $tpl, $this->_extension);
+		return (bool) $this->getTemplatePath($tpl, false);
 	}
 
 	/**
-	 * Verify templates (check change time)
+	 * Verify templates, check update time.
 	 *
-	 * @param  array  $templates [template_name => modified, ...] By conversation, you may trust the template's name
+	 * @param  array $templates `[template => modified, ...]` By conversation, you may trust the template's name
 	 * @return bool
 	 */
-	public function verify(array $templates)
+	public function verify(array $templates): bool
 	{
-		foreach ($templates as $tpl => $mtime)
-		{
-			$tpl = $this->_getTemplatePath($tpl);
-			clearstatcache(TRUE, $tpl);
-			if ( @filemtime($tpl) !== $mtime)
-			{
-				return FALSE;
+		foreach ($templates as $template => $mtime) {
+			$path = $this->getTemplatePath($template, false);
+			if (! $path) {
+				return false;
+			}
+			if ($this->getLastModified($path) != $mtime) {
+				return false;
 			}
 		}
-		return TRUE;
+		return true;
 	}
 }
