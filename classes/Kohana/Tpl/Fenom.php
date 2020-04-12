@@ -1,48 +1,55 @@
-<?php defined('SYSPATH') OR die('No direct script access.');
+<?php
 /**
- * Tpl driver for [Fenom template engine](http://github.com/bzick/fenom). 
+ * Adapter for [Fenom template engine](https://github.com/fenom-template). 
  *
- * @package    Tpl
- * @category   Driver
- * @author     WinterSilence <info@handy-soft.ru>
- * @copyright  2014 © handy-soft.ru
+ * @package    Kohana\Template
+ * @category   View
+ * @author     WinterSilence <info@ensostudio.ru>
+ * @copyright  2013-2020 © Enso studio
  * @license    MIT
- * @link       http://github.com/WinterSilence/kohana-tpl
  */
-abstract class Kohana_Tpl_Fenom implements Kohana_Tpl_Interface {
-
+abstract class Kohana_Tpl_Fenom implements Kohana_Tpl_Interface
+{
 	/**
-	 * @var  object  instance of template engine 
+	 * @var Fenom\Extra Fenom instance
 	 */
-	protected $_engine;
+	protected $fenom;
 
 	/**
-	 * Create instance of template engine.
+	 * Creates new adapter.
 	 * 
-	 * @param   array  $config  engine settings
-	 * @return  void
+	 * @param array $config Configuration
+	 * @return void
 	 */
 	public function __construct(array $config)
 	{
-		// Create engine provider
 		$provider = new Kohana_Tpl_Fenom_Provider($config['extension']);
-		// Create engine instance
-		$this->_engine = Fenom::factory($provider, $config['compile_dir'], $config['options']);
-		// Add modifier default
-		//require_once Kohana::find_file('fenom'.DIRECTORY_SEPARATOR.'modifiers', 'default');
-		//$this->_engine->addModifier('default', 'fenom_modifier_default');
+		Fenom\Extra::$charset = $config['charset'];
+		$this->fenom = Fenom\Extra::factory($provider, $config['cache_dir'], $config['options']);
+		if ($config['smarty_support']) {
+			$this->fenom->setSmartySupport();
+		}
+		if ($config['allowed_functions']) {
+			$this->fenom->addAllowedFunctions($config['allowed_functions']);
+		}
+		foreach ($config['functions'] as $name => $callback) {
+			$this->fenom->addFunctionSmart($name, $callback);
+		}
+		foreach ($config['modifiers'] as $name => $callback) {
+			$this->fenom->addModifier($name, $callback);
+		}
 	}
 
 	/**
-	 * Renders the view object to a string.
+	 * Returns rendered template.
 	 * 
-	 * @param   string  $file  template file
-	 * @param   array   $data  template variables
-	 * @return  string
+	 * @param string $template Template name
+	 * @param array $data Template variables
+	 * @return string
 	 */
-	public function render($file, array $data)
+	public function render(string $template, array $data): string
 	{
-		return $this->_engine->fetch($file, $data);
+		return $this->fenom->fetch($template, $data);
 	}
 
-} // End Tpl_Fenom
+}
