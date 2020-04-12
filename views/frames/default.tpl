@@ -24,7 +24,7 @@
         {* HTML::script('assets/js/main.js') *}
         
         <!-- Google Analytics -->
-        {if ! empty($google_analytics_id)}
+        {if isset($google_analytics_id)}
         <script>
             {ignore}
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
