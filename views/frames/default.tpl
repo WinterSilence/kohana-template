@@ -15,27 +15,11 @@
         {* HTML::style('assets/css/main.css') *}
     </head>
     <body>
-        
         <!-- Main content -->
         <main>{$content->render()}</main>
         
         <!-- Include JavaScript files -->
         {* HTML::script('http://ajax.googleapis.com/ajax/libs/jquery/latest/jquery.min.js') *}
         {* HTML::script('assets/js/main.js') *}
-        
-        <!-- Google Analytics -->
-        {if isset($google_analytics_id)}
-        <script>
-            {ignore}
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            {/ignore}
-            ga('create', '{$google_analytics_id}');
-            ga('send', 'pageview');
-        </script>
-        {/if}
     </body>
 </html>
